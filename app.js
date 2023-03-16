@@ -24,6 +24,8 @@ app.use('/', pageRoute)
 app.use('/courses', courseRoute)
 app.use('/categories', categoryRoute)
 
+// edit 
+
 app.get('/dashboard', (req, res) => {
   res.status(200).render('dashboard', {
     page_name: 'dashboard',
