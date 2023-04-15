@@ -11,7 +11,7 @@ exports.getAboutPage = (req, res) => {
   res.status(200).render('about', {
     page_name: 'about',
   });
-};
+ };
 
 exports.getRegisterPage = (req, res) => {
   res.status(200).render('register', {
@@ -31,6 +31,7 @@ exports.getContactPage = (req, res) => {
   });
 };
 exports.sendEmail = async (req, res) => {
+  try{
   const outputMessage = `
   <h1>Mail Details </h1>
   <ul>
@@ -47,7 +48,7 @@ exports.sendEmail = async (req, res) => {
     secure: false,
     auth: {
       user: "geovanny18@ethereal.email",
-      pass: "mdQAcrXcfkjpwK5ex1"
+      pass: "mdQAcrXcfkjpwK5ex1sil"
     }
   });
 
@@ -60,6 +61,11 @@ exports.sendEmail = async (req, res) => {
 
   console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
+  req.flash("success","We received your mesage succesfully");
   res.status(200).redirect('contact')
- 
+}catch(err){
+  // req.flash("error",`Something happened! ${err}`);
+  req.flash("error","Something happened!");
+  res.status(200).redirect('contact')
+}
 }

@@ -8,15 +8,27 @@
 		</div>
 	</div>
 	
-    <div id="overviews" class="section wb">
+    <div id="overviews"  class="section wb">
         <div class="container">
-            <div class="row"> 
+            <div class="row">
                 <div class="col-lg-9 blog-post-single">
+					<% if(flashMesssage) { %>
+						<% if(flashMesssage.success) { %> 
+						   <div class="alert alert-success">
+							   <%= flashMesssage.success %>
+						   </div>
+						<% } else if (flashMesssage.error){ %>
+						   <div class="alert alert-danger">
+							   <%= flashMesssage.error %>
+						   </div>
+						   <% } %>
+						 <%  } %> 
 				   <div class="row"> 
-
+			
 					<% for (let i = 0; i < courses.length; i++){ %>
 						<div class="col-lg-6 col-md-6 col-12">
 							<div class="course-item mb-5">
+							
 								<div class="image-blog">
 									<img src="/images/blog_1.jpg" alt="" class="img-fluid">
 								</div>
