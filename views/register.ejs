@@ -10,10 +10,24 @@
                 <div class="col-xl-12 col-md-12 col-sm-12">
                     <div class="contact_form">
                         <div id="message"></div>
-                        <form action="users/signup" method="POST">
+                        <form action="users/signup" method="POST" novalidate>
                             <div class="row row-fluid">
+                                <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
+                            
+                                    <% if(flashMesssage) { %>
+                                    <% if(flashMesssage.success) { %> 
+                                    <div class="alert alert-success">
+                                        <%= flashMesssage.success %>
+                                    </div>
+                                 <% } else if (flashMesssage.error){ %>
+                                    <div class="alert alert-danger">
+                                        <%= flashMesssage.error %>
+                                    </div>
+                                    <% } %>
+                                  <%  } %>
+                                </div>
 							    <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
-                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+                                    <input type="text" name="name" id="name" class="form-control" placeholder="Name" >
                                 </div>
                                 <div class="offset-1 col-lg-10 col-md-10 col-sm-10">
                                     <input type="email" name="email" id="email" class="form-control" placeholder="Email">

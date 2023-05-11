@@ -2,52 +2,58 @@ const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const pageRoute = require('./routes/pageRoutes')
-const courseRoute = require('./routes/courseRoute')
-const userRoute = require('./routes/userRoute')
-const categoryRoute = require('./routes/categoryRoute')
+const pageRoute = require('./routes/pageRoutes');
+const courseRoute = require('./routes/courseRoute');
+const userRoute = require('./routes/userRoute');
+const categoryRoute = require('./routes/categoryRoute');
 var flash = require('connect-flash');
+var methodOverride = require('method-override');
 
 const app = express();
 
-// Connect DB 
-mongoose.connect('mongodb://127.0.0.1/smartedu-db')
-.then(() =>{ 
-  console.log('DB Connected Succesful')
-})
+// Connect DB
+mongoose.connect('mongodb://127.0.0.1/smartedu-db').then(() => {
+  console.log('DB Connected Succesful');
+});
 //Templete Engine
 app.set('view engine', 'ejs');
 
 //Global Variable
 
-global.userIN = null; 
+global.userIN = null;
 
 //Middleware
 app.use(express.static('public'));
-app.use(express.json()) // for parsing application/json
-app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-app.use(session({
-  secret: 'my_keyboard_cat',
-  resave: false,
-  saveUninitialized: true,
-  store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1/smartedu-db'})
-}))
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(
+  session({
+    secret: 'my_keyboard_cat',
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({ mongoUrl: 'mongodb://127.0.0.1/smartedu-db' }),
+  })
+);
 app.use(flash());
-app.use((req,res,next) =>{
+app.use((req, res, next) => {
   res.locals.flashMesssage = req.flash();
   next();
-})
+});
+app.use(
+  methodOverride('_method', {
+    methods: ['POST', 'GET'],
+  })
+);
 
 //Routes
 app.use('*', (req, res, next) => {
   userIN = req.session.userID;
   next();
-})
-app.use('/', pageRoute)
-app.use('/courses', courseRoute)
-app.use('/categories', categoryRoute)
-app.use('/users', userRoute)
-
+});
+app.use('/', pageRoute);
+app.use('/courses', courseRoute);
+app.use('/categories', categoryRoute);
+app.use('/users', userRoute);
 
 app.get('/dashboard', (req, res) => {
   res.status(200).render('dashboard', {
@@ -59,7 +65,6 @@ app.get('/contact', (req, res) => {
     page_name: 'contact',
   });
 });
-
 
 const port = 3003;
 
