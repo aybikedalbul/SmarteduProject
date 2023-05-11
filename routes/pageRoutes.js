@@ -18,4 +18,3 @@ router.route('/contact').post(pageController.sendEmail);
 
 
 module.exports = router;
-
